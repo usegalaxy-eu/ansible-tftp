@@ -1,0 +1,6 @@
+---
+- name: TFTP service restart
+  ansible.builtin.service:
+    name: tftp
+    state: restarted
+    daemon_reload: true
