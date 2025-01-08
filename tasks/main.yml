@@ -1,8 +1,15 @@
 ---
-- name: Install tftp-server
+- name: Install TFTP
   ansible.builtin.package:
     state: present
     name: tftp-server
+  when: ansible_os_family == 'RedHat'
+
+- name: Install TFTP
+  ansible.builtin.package:
+    state: present
+    name: tftpd-hpa
+  when: ansible_os_family == 'Debian'
 
 - name: Allow TFTP traffic in firewalld on port
   ansible.posix.firewalld:
@@ -11,6 +18,13 @@
     state: enabled
     immediate: true
   when: ansible_os_family == 'RedHat'
+
+- name: Allow TFTP traffic in ufw
+  community.general.ufw:
+    rule: allow
+    proto: udp
+    port: 69
+  when: ansible_os_family == 'Debian'
 
 - name: Copy tftp systemd file
   ansible.builtin.template:
