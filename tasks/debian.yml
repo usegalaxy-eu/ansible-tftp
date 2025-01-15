@@ -1,0 +1,31 @@
+---
+- name: Install TFTP
+  ansible.builtin.package:
+    state: present
+    name: tftpd-hpa
+
+- name: Allow TFTP traffic in ufw
+  community.general.ufw:
+    rule: allow
+    proto: udp
+    port: 69
+
+- name: Configure TFTP server
+  ansible.builtin.copy:
+    content: |
+      TFTP_USERNAME="{{ tftp_user }}"
+      TFTP_DIRECTORY="{{ tftpboot_path }}"
+      TFTP_ADDRESS="0.0.0.0:69"
+      TFTP_OPTIONS="--secure"
+    dest: /etc/default/tftpd-hpa
+    owner: root
+    group: root
+    mode: "644"
+  notify: TFTP-hpa service restart
+
+- name: Start and enable tftp service
+  ansible.builtin.service:
+    name: tftpd-hpa
+    state: started
+    enabled: true
+    daemon_reload: true

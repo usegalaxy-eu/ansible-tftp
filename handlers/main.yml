@@ -4,3 +4,9 @@
     name: tftp
     state: restarted
     daemon_reload: true
+
+- name: TFTP-hpa service restart
+  ansible.builtin.service:
+    name: tftpd-hpa
+    state: restarted
+    daemon_reload: true
