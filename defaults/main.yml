@@ -1,4 +1,4 @@
 # --- tftp-server vars ---
-tftpboot_path: "/mnt/tftpboot"
-tftp_user: tftp
-tftp_group: tftp
+tftpboot_path: "/netboot/boot"
+tftp_user: dnbd3
+tftp_group: dnbd3
