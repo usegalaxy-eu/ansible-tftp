@@ -6,6 +6,7 @@ Documentation=man:in.tftpd
 [Service]
 ExecStart=/usr/sbin/in.tftpd -s {{ tftpboot_path }} -u {{ tftp_user }}
 StandardInput=socket
+RestartSec=15
 
 [Install]
 Also=tftp.socket
